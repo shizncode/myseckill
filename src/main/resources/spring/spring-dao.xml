@@ -56,8 +56,8 @@
     </bean>
 
     <!--redisDao -->
-<!--    <bean id="redisDao" class="com.seckill.dao.cache.RedisDao">-->
-<!--        <constructor-arg index="0" value="localhost"/>-->
-<!--        <constructor-arg index="1" value="6379"/>-->
-<!--    </bean>-->
+    <bean id="redisDao" class="com.myseckill.dao.cache.RedisDao">
+        <constructor-arg index="0" value="localhost"/>
+        <constructor-arg index="1" value="6379"/>
+    </bean>
 </beans>

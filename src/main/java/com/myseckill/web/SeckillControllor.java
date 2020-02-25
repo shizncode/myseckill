@@ -60,7 +60,8 @@ public class SeckillControllor {
     public SeckillResult<Exposer> exposer(@PathVariable("seckillId") Long seckillId) {
         SeckillResult<Exposer> result;
         try {
-            Exposer exposer = seckillService.exportSeckillUrl(seckillId);
+//            Exposer exposer = seckillService.exportSeckillUrl(seckillId);
+            Exposer exposer = seckillService.exportSeckillUrlRedis(seckillId);
             result = new SeckillResult<Exposer>(true, exposer);
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,23 +84,22 @@ public class SeckillControllor {
             return new SeckillResult<SeckillExecution>(false, "未注册");
 
         }
-        SeckillResult<SeckillExecution> result;
-        try {
-            //存储过程调用
-//            SeckillExecution seckillExecution = seckillService.executeSeckillProcedure(seckillId, userPhone, md5);
-            SeckillExecution seckillExecution = seckillService.executeSeckill(seckillId, userPhone, md5);
-            return new SeckillResult<SeckillExecution>(true, seckillExecution);
-        } catch (RepeatKillException e1) {
-            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStateEnum.REPEAT_KILL);
-            return new SeckillResult<SeckillExecution>(true, execution);
-        } catch (SeckillCloseException e2) {
-            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStateEnum.END);
-            return new SeckillResult<SeckillExecution>(true, execution);
-        } catch (Exception e) {
-            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStateEnum.INNER_ERROR);
-            return new SeckillResult<SeckillExecution>(true, execution);
-        }
-
+        SeckillExecution seckillExecution = seckillService.executeSeckillProcedure(seckillId, userPhone, md5);
+        return new SeckillResult<SeckillExecution>(true, seckillExecution);
+//        try {
+//            //存储过程调用
+//            SeckillExecution seckillExecution = seckillService.executeSeckill(seckillId, userPhone, md5);
+//            return new SeckillResult<SeckillExecution>(true, seckillExecution);
+//        } catch (RepeatKillException e1) {
+//            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStateEnum.REPEAT_KILL);
+//            return new SeckillResult<SeckillExecution>(true, execution);
+//        } catch (SeckillCloseException e2) {
+//            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStateEnum.END);
+//            return new SeckillResult<SeckillExecution>(true, execution);
+//        } catch (Exception e) {
+//            SeckillExecution execution = new SeckillExecution(seckillId, SeckillStateEnum.INNER_ERROR);
+//            return new SeckillResult<SeckillExecution>(true, execution);
+//        }
     }
 
     //获取系统时间

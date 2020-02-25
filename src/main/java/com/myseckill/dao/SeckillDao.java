@@ -40,5 +40,5 @@ public interface SeckillDao {
      *
      * @param paramMap
      */
-//    void killByProcedure(Map<String, Object> paramMap);
+    void killByProcedure(Map<String, Object> paramMap);
 }
